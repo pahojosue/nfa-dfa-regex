@@ -28,39 +28,47 @@ class Lexer:
     # This method must be a peer of __init__ and advance
     def get_next_token(self) -> Token:
         # Loop to consume whitespace characters
-        while self.current_char is not None and self.current_char.isspace():
-            self.advance()
-            # No 'continue' needed here, loop handles advancement automatically if current_char is still space
+        while self.current_char is not None:
+            if self.current_char.isspace():
+                self.advance()
+                continue
 
-        # Check for end of input
-        if self.current_char is None:
-            return Token(TokenType.END)
-
-        # Get the current character and move to the next one immediately
-        char = self.current_char
-        self.advance() # Move past the character we just read
-
-        # Token recognition based on the character
-        if char == '(':
-            return Token(TokenType.LPAREN, '(')
-        elif char == ')':
-            return Token(TokenType.RPAREN, ')')
-        elif char == '|':
-            return Token(TokenType.OR, '|')
-        elif char == '*':
-            return Token(TokenType.STAR, '*')
-        elif char == '+':
-            return Token(TokenType.PLUS, '+')
-        elif char == '?':
-            return Token(TokenType.OPTIONAL, '?')
-        elif char == 'ε':
-            return Token(TokenType.EPSILON, 'ε')
+            # Token recognition based on the character
+            if self.current_char == '(':
+                self.advance()
+                return Token(TokenType.LPAREN, '(')
+            elif self.current_char == ')':
+                self.advance()
+                return Token(TokenType.RPAREN, ')')
+            elif self.current_char == '|':
+                self.advance()
+                return Token(TokenType.OR, '|')
+            elif self.current_char == '*':
+                self.advance()
+                return Token(TokenType.STAR, '*')
+            elif self.current_char == '+':
+                self.advance()
+                return Token(TokenType.PLUS, '+')
+            elif self.current_char == '?':
+                self.advance()
+                return Token(TokenType.OPTIONAL, '?')
+            elif self.current_char == 'ε':
+                self.advance()                
+                return Token(TokenType.EPSILON, 'ε')
+            elif self.current_char.isdigit():
+                digit = self.current_char
+                self.advance()
+                return Token(TokenType.DIGIT, digit)
+            else:
+                char = self.current_char
+                self.advance()
+                return Token(TokenType.CHAR, char)
         
         # NOTE: Your original logic had an isdigit() check but returned 'char'.
         # Assuming any character not matched above is a literal character.
         # The isdigit() check is redundant if CHAR is the catch-all.
         # Returning Token(TokenType.CHAR, char) is the correct catch-all.
-        return Token(TokenType.CHAR, char)
+        return Token(TokenType.END)
         
 # --- 3. Lexer Test Function (Corrected Indentation) ---
 

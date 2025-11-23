@@ -1,6 +1,7 @@
 from lexer import Lexer, test_lexer
 from regex_parser import Parser, test_parser
 from nfa import NFA
+from state import State
 from nfa_builder import NFABuilder, test_nfa_builder
 
 class RegexToNFAConverter:
@@ -9,7 +10,7 @@ class RegexToNFAConverter:
     
     def convert(self, regex: str) -> NFA:
         # Add explicit concatenation operators
-        regex = self.add_explicit_concatenation(regex)
+        # regex = self.add_explicit_concatenation(regex)
         lexer = Lexer(regex)
         parser = Parser(lexer)
         ast = parser.parse()
@@ -41,7 +42,7 @@ class RegexToNFAConverter:
         
         visited = set()
 
-        def dfs(state, depth=0):
+        def dfs(state: State, depth=0):
             if state in visited:
                 return
             visited.add(state)
@@ -78,11 +79,11 @@ def test_converter():
     print("\nNFA Visualization: ")
     converter.visualize()
 
-if __name__ == "__main__":
-    test_lexer()
-    # test_parser()
-    test_nfa_builder()
-    test_converter()
+# if __name__ == "__main__":
+#     # test_lexer()
+#     # test_parser()
+#     test_nfa_builder()
+#     test_converter()
 
 def interactive_demo():
     """Interactive demo for testing custom regex patterns"""
@@ -111,6 +112,7 @@ def interactive_demo():
             # Convert and visualize
             nfa = converter.convert(regex)
             print(f"\n Successfully converted '{regex}' to NFA")
+            converter.visualize()
 
             # Test strings interactively
             while True:
