@@ -1,30 +1,6 @@
-import re 
 from enum import Enum 
-from typing import List, Optional, Set
-
-# --- 1. Define TokenType and Token (Assumed content from your imports) ---
-
-class TokenType(Enum):
-    LPAREN = 'LPAREN'
-    RPAREN = 'RPAREN'
-    OR = 'OR'
-    STAR = 'STAR'
-    PLUS = 'PLUS'
-    OPTIONAL = 'OPTIONAL'
-    EPSILON = 'EPSILON'
-    CHAR = 'CHAR'
-    END = 'END'
-
-class Token:
-    def __init__(self, type: TokenType, value: str = None):
-        self.type = type
-        self.value = value
-
-    def __repr__(self):
-        # A helpful representation for printing tokens
-        if self.value:
-            return f"Token({self.type.name}, '{self.value}')"
-        return f"Token({self.type.name})"
+from token_1 import Token
+from token_type import TokenType
 
 # --- 2. The Corrected Lexer Class ---
 

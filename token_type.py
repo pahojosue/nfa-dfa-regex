@@ -1,7 +1,4 @@
-"""Token types and Token helper for regex parser."""
-
 from enum import Enum
-from typing import Optional
 
 class TokenType(Enum):
     CHAR = 1

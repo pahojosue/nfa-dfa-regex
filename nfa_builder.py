@@ -1,10 +1,7 @@
-import re
-from enum import Enum
-from typing import List, Optional, Set
 from nfa import NFA
 from state import State
-from lexer import Lexer, test_lexer
-from parser import Parser, test_parser
+from lexer import Lexer
+from regex_parser import Parser
 from ast_nodes import CharNode, DigitNode, StarNode, PlusNode, OptionalNode, OrNode, ConcatNode
 from ast_nodes import ASTNode
 
@@ -12,7 +9,7 @@ class NFABuilder:
     @staticmethod
     def build_from_ast(node: ASTNode) -> NFA:
         if isinstance(node, CharNode):
-            return NFABuilder.build_char(node.digit)
+            return NFABuilder.build_char(node.char)
         elif isinstance(node, DigitNode):
             return NFABuilder.build_digit(node.digit)
         elif isinstance(node, StarNode):
@@ -115,18 +112,26 @@ class NFABuilder:
 
         return NFA(start, accept)
     
-    # Test the NFA builder
-    def test_nfa_builder():
-        print("\nTesting NFA Builder...")
-        lexer = Lexer("a")
-        parser = Parser(lexer)
-        ast = parser.parse()
-        nfa = NFABuilder.build_from_ast(ast)
-        print("NFA Created: ", nfa)
-        print("Start state: ", nfa.start)
-        print("Accept state: ", nfa.accept)
+    @staticmethod 
+    def build_concat(nfa1: NFA, nfa2: NFA) -> NFA: 
+        # ε: nfa1.accept → nfa2.start 
+        nfa1.accept.add_epsilon_transition(nfa2.start) 
+        nfa1.accept.is_accept = False 
+         
+        return NFA(nfa1.start, nfa2.accept) 
+    
+# Test the NFA builder
+def test_nfa_builder():
+    print("\nTesting NFA Builder...")
+    lexer = Lexer("a")
+    parser = Parser(lexer)
+    ast = parser.parse()
+    nfa = NFABuilder.build_from_ast(ast)
+    print("NFA Created: ", nfa)
+    print("Start state: ", nfa.start)
+    print("Accept state: ", nfa.accept)
 
-    # if __name__ == "__main__":
-    #     test_lexer()
-    #     test_parser()
-    #     test_nfa_builder()
+# if __name__ == "__main__":
+#     test_lexer()
+#     test_parser()
+#     test_nfa_builder()

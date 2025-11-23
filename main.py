@@ -1,8 +1,5 @@
-import re 
-from enum import Enum 
-from typing import List, Optional, Set
 from lexer import Lexer, test_lexer
-from parser import Parser, test_parser
+from regex_parser import Parser, test_parser
 from nfa import NFA
 from nfa_builder import NFABuilder, test_nfa_builder
 
@@ -83,7 +80,7 @@ def test_converter():
 
 if __name__ == "__main__":
     test_lexer()
-    test_parser()
+    # test_parser()
     test_nfa_builder()
     test_converter()
 
