@@ -29,9 +29,9 @@ class RegexToNFAConverter:
     
     def visualize(self):
         """Convenience: render to default filename nfa_thompson"""
-        self.visualize_with_graphviz("nfa_thompson")
+        self.visualize_with_graphviz("result/nfa_thompson")
     
-    def visualize_with_graphviz(self, filename: str = "nfa_thompson"):
+    def visualize_with_graphviz(self, filename: str = "result/nfa_thompson"):
         """
         Render the current NFA with Graphviz. States are labeled q0..qN in BFS order
         starting from the start state. Old files with the same basename are removed
@@ -100,12 +100,14 @@ class RegexToNFAConverter:
                 dot.edge(src, dst, label='ε')
 
         # Render and cleanup intermediate files
-        out = dot.render(filename, format='png', cleanup=True)
+        out = dot.render(filename, "result/", format='png', cleanup=True)
         print(f"📊 NFA Thompson visualization saved as: {out}")
         
         # Also display in the console
         print("Graphviz NFA Structure:")
         print(dot.source)
+        hey: dict= dot.source.split("// NFA Thompson Construction")[1]
+        print(hey)
         
         return dot
 
