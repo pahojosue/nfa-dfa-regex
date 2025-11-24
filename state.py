@@ -23,3 +23,8 @@ class State:
     
     def __repr__(self):
         return f"State({self.id}, accept={self.is_accept})"
+
+    @classmethod
+    def reset_id_counter(cls, value: int = 0):
+        """Reset the global id counter (use before building a fresh NFA)."""
+        cls._id_counter = value
